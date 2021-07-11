@@ -1,0 +1,12 @@
+name: afk
+version: 0.0.69
+author: Technical27
+main: io.github.technical27.afk.plugin.Plugin
+api-version: 1.17
+softdepend:
+  - PlaceholderAPI
+commands:
+  afk:
+    description: enable afk
+    usage: /<command>
+    permission: afk.command
