@@ -6,7 +6,7 @@
 (defn- placeholder-request
   [player ident]
   (when (and player (= ident "status"))
-    (when (contains? @state/players player)
+    (when (state/get-afk player)
       messages/afk-tag)))
 
 (defn expansion

@@ -12,11 +12,12 @@
 
 (defn- check-cooldown
   [player]
-  (and (contains? @state/cooldowns player) (not (past-cooldown? (get @state/cooldowns player)))))
+  (when-let [cooldown (state/get-cooldown player)]
+    (not (past-cooldown? cooldown))))
 
 (defn- afk-handle
   [player]
-  (if (contains? @state/players player)
+  (if (state/get-afk player)
     (util/afk-end player)
     (if (check-cooldown player)
       (.sendMessage player (str ChatColor/RED "Please wait a bit before running the command again"))

@@ -3,7 +3,10 @@
    :main false
    :constructors {[] []}
    :methods [[^{org.bukkit.event.EventHandler {}} onPlayerMove [org.bukkit.event.player.PlayerMoveEvent] void]
-             [^{org.bukkit.event.EventHandler {}} onEntityTarget [org.bukkit.event.entity.EntityTargetLivingEntityEvent] void]]
+             [^{org.bukkit.event.EventHandler {}} onEntityTarget [org.bukkit.event.entity.EntityTargetLivingEntityEvent] void]
+             [^{org.bukkit.event.EventHandler {}} onPlayerLeave [org.bukkit.event.player.PlayerQuitEvent] void]
+             [^{org.bukkit.event.EventHandler {}} onPlayerKick [org.bukkit.event.player.PlayerKickEvent] void]
+             [^{org.bukkit.event.EventHandler {}} onPlayerJoin [org.bukkit.event.player.PlayerJoinEvent] void]]
    :implements [org.bukkit.event.Listener])
   (:require [io.github.technical27.afk.state :as state]
             [io.github.technical27.afk.util :as util]))
@@ -18,12 +21,25 @@
 (defn -onPlayerMove
   [_ event]
   (let [player (.getPlayer event)]
-    (when (contains? @state/players player)
-      (when (moved-from-block? (.getFrom event) (.getTo event))
+    (when (moved-from-block? (.getFrom event) (.getTo event))
+      (state/update-last-moved player)
+      (when (state/get-afk player)
         (util/afk-end player)))))
+
+(defn -onPlayerJoin
+  [_ event]
+  (state/add-player (.getPlayer event)))
+
+(defn -onPlayerLeave
+  [_ event]
+  (state/remove-player (.getPlayer event)))
+
+(defn -onPlayerKick
+  [_ event]
+  (state/remove-player (.getPlayer event)))
 
 (defn -onEntityTarget
   [_ event]
   (let [target (.getTarget event)]
-    (when (and target (contains? @state/players target))
+    (when (and target (state/get-afk target))
       (.setCancelled event true))))

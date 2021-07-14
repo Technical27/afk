@@ -1,4 +1,4 @@
-(defproject afk "0.1.0-SNAPSHOT"
+(defproject io.github.technical27/afk "0.1.0-SNAPSHOT"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :license {:name "EPL-2.0 OR GPL-2.0-or-later WITH Classpath-exception-2.0"
@@ -7,7 +7,8 @@
   :aot :all
   :target-path "target/%s"
   :repositories [["spigot-repo" "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"]
-                 ["placeholderapi" "https://repo.extendedclip.com/content/repositories/placeholderapi/"]]
+                 ["placeholderapi" "https://repo.extendedclip.com/content/repositories/placeholderapi/"]
+                 ["gh" "https://maven.pkg.github.com/Technical27/afk"]]
   :java-source-paths ["java"]
   :profiles {:provided {:dependencies [[org.spigotmc/spigot-api "1.17-R0.1-SNAPSHOT" :scope "runtime"]
                                        [me.clip/placeholderapi "2.10.9" :scope "runtime"]]}
